@@ -455,8 +455,7 @@ INSERT INTO employees VALUES
 (110,'Arjun','Rao','arjun.rao@gmail.com','988-999-7777','Developer','Hyderabad',68000);
 
 
- Basic Level
-20 Questions — one string function at a time
+
 Q1. Display full name by concatenating first_name and last_name.
 SELECT CONCAT(first_name, ' ', last_name) AS full_name
 FROM employees;
@@ -539,8 +538,6 @@ FROM employees;
 
 
  
-Intermediate Level
-20 Questions — filtering, sorting and combining string functions
 Q1. Find employees whose first_name starts with 'R'.
 SELECT first_name, last_name
 FROM employees
@@ -643,90 +640,68 @@ SELECT email,
 FROM employees;
 
 Q2. Check if any employee's first_name is a palindrome.
-SELECT first_name
-FROM employees
+SELECT first_name FROM employees
 WHERE LOWER(first_name) = LOWER(REVERSE(first_name));
 
 Q3. Generate a username using the first letter of first_name plus the full last_name, in lowercase.
-SELECT CONCAT(LOWER(LEFT(first_name, 1)), LOWER(last_name)) AS username
-FROM employees;
+SELECT CONCAT(LOWER(LEFT(first_name, 1)), LOWER(last_name)) AS usernameFROM employees;
 
 Q4. Compare first_name and last_name alphabetically using STRCMP().
-SELECT first_name, last_name, STRCMP(first_name, last_name) AS comparison
-FROM employees;
+SELECT first_name, last_name, STRCMP(first_name, last_name) AS comparisonFROM employees;
 
 Q5. Extract the top-level domain (e.g. com) from each email using nested SUBSTRING_INDEX().
 SELECT email,
-   	SUBSTRING_INDEX(SUBSTRING_INDEX(email, '@', -1), '.', -1) AS tld
-FROM employees;
+   	SUBSTRING_INDEX(SUBSTRING_INDEX(email, '@', -1), '.', -1) AS tld FROM employees;
 
 Q6. List all employee names grouped by department using GROUP_CONCAT().
 SELECT department,
-   	GROUP_CONCAT(CONCAT(first_name, ' ', last_name) SEPARATOR ', ') AS employees_list
-FROM employees
-GROUP BY department;
+   	GROUP_CONCAT(CONCAT(first_name, ' ', last_name) SEPARATOR ', ') AS employees_listFROM employees GROUP BY department;
 
 Q7. Categorize employees as 'Short Name' or 'Long Name' based on the length of first_name.
 SELECT first_name,
    	CASE WHEN LENGTH(first_name) <= 5 THEN 'Short Name'
-        	ELSE 'Long Name' END AS name_category
-FROM employees;
+        	ELSE 'Long Name' END AS name_category FROM employees;
 
 Q8. Generate a formatted employee code like 'EMP0101' by padding emp_id with zeros.
-SELECT emp_id, CONCAT('EMP', LPAD(emp_id, 4, '0')) AS employee_code
-FROM employees;
+SELECT emp_id, CONCAT('EMP', LPAD(emp_id, 4, '0')) AS employee_code FROM employees;
 
 Q9. Extract the area code (first 3 digits) from phone_number.
-SELECT phone_number, SUBSTRING(phone_number, 1, 3) AS area_code
-FROM employees;
+SELECT phone_number, SUBSTRING(phone_number, 1, 3) AS area_code FROM employees;
 
 Q10. Find the position of the first '.' (dot) in each email using LOCATE().
-SELECT email, LOCATE('.', email) AS dot_position
-FROM employees;
+SELECT email, LOCATE('.', email) AS dot_position FROM employees;
 
 Q11. Mask phone numbers, showing only the last 4 digits.
 SELECT phone_number,
-   	CONCAT('XXX-XXX-', RIGHT(phone_number, 4)) AS masked_phone
-FROM employees;
+   	CONCAT('XXX-XXX-', RIGHT(phone_number, 4)) AS masked_phone FROM employees;
 
 Q12. Count the number of occurrences of the letter 'a' in each first_name using LENGTH() and REPLACE().
 SELECT first_name,
-   	(LENGTH(first_name) - LENGTH(REPLACE(LOWER(first_name), 'a', ''))) AS a_count
-FROM employees;
+   	(LENGTH(first_name) - LENGTH(REPLACE(LOWER(first_name), 'a', ''))) AS a_count FROM employees;
 
 Q13. Find employees whose full name (concatenated) exceeds 15 characters.
-SELECT first_name, last_name,
-   	LENGTH(CONCAT(first_name, ' ', last_name)) AS full_name_length
-FROM employees
+SELECT first_name, last_name, LENGTH(CONCAT(first_name, ' ', last_name)) AS full_name_length FROM employees
 HAVING full_name_length > 15;
 
 Q14. Generate an employee short code combining initials and emp_id (e.g. RK101).
-SELECT CONCAT(LEFT(first_name, 1), LEFT(last_name, 1), emp_id) AS short_code
-FROM employees;
+SELECT CONCAT(LEFT(first_name, 1), LEFT(last_name, 1), emp_id) AS short_code FROM employees;
 
 Q15. Sort employees by last_name in descending order.
-SELECT first_name, last_name
-FROM employees
-ORDER BY last_name DESC;
+SELECT first_name, last_name FROM employees ORDER BY last_name DESC;
 
 Q16. Create a 3-letter short code for each department using LEFT() and UPPER().
-SELECT department, UPPER(LEFT(department, 3)) AS dept_code
-FROM employees;
+SELECT department, UPPER(LEFT(department, 3)) AS dept_code FROM employees;
 
 Q17. Display employee salary formatted with a thousands separator using FORMAT().
-SELECT first_name, salary, FORMAT(salary, 0) AS formatted_salary
-FROM employees;
+SELECT first_name, salary, FORMAT(salary, 0) AS formatted_salary FROM employees;
 
 Q18. Build a complete employee directory report combining name, masked email, and department code.
 SELECT CONCAT(first_name, ' ', last_name) AS full_name,
    	CONCAT(LEFT(email, 3), '****@', SUBSTRING_INDEX(email, '@', -1)) AS masked_email,
-   	UPPER(LEFT(department, 3)) AS dept_code
-FROM employees;
+   	UPPER(LEFT(department, 3)) AS dept_code FROM employees;
 
 Q19. Find employees whose email domain is not 'gmail.com'.
-SELECT first_name, email
-FROM employees
-WHERE SUBSTRING_INDEX(email, '@', -1) <> 'gmail.com';
+SELECT first_name, email FROM employees WHERE SUBSTRING_INDEX(email, '@', -1) <> 'gmail.com';
 
 Q20. Generate a full formatted employee record: "EMP<emp_id> | <FULL NAME> | <Department> | Salary: <formatted salary>".
 SELECT CONCAT(
@@ -735,6 +710,80 @@ SELECT CONCAT(
      	department, ' | Salary: ', FORMAT(salary, 0)
    	) AS employee_record
 FROM employees;
+
+Q1. First name starts with R
+SELECT *
+FROM employees
+WHERE first_name LIKE 'R%';
+
+Q2. Email contains yahoo
+SELECT *
+FROM employees
+WHERE email LIKE '%yahoo%';
+
+Q3. Full name along with department as a single string
+SELECT CONCAT(first_name, ' ', last_name, ' - ', department) AS employee_details
+FROM employees;
+
+Q4. Length of every employee's email
+SELECT email, LENGTH(email) AS email_length
+FROM employees;
+
+Q5. First name has more than 5 characters
+SELECT *
+FROM employees
+WHERE LENGTH(first_name) > 5;
+
+Q6. Replace gmail.com with company.com
+SELECT email,
+       REPLACE(email, 'gmail.com', 'company.com') AS new_emailFROM employees;
+
+Q7. Position of @ in each email
+SELECT email,
+       INSTR(email, '@') AS at_position
+FROM employees;
+
+Q8. Extract username before @ using SUBSTRING_INDEX()
+SELECT email,
+       SUBSTRING_INDEX(email, '@', 1) AS username
+FROM employees;
+
+Q9. Extract domain after @
+SELECT email,
+       SUBSTRING_INDEX(email, '@', -1) AS domain
+FROM employees;
+
+Q10. Last name ends with a
+SELECT *
+FROM employees
+WHERE last_name LIKE '%a';
+
+Q11. Full name in uppercase for IT department
+SELECT UPPER(CONCAT(first_name, ' ', last_name)) AS full_name
+FROM employees
+WHERE department = 'IT';
+
+Q12. Find duplicated first names
+SELECT first_name, COUNT(*) AS name_count
+FROM employees
+GROUP BY first_name
+HAVING COUNT(*) > 1;
+
+Q13. Remove all dashes from phone numbers
+SELECT phone,
+       REPLACE(phone, '-', '') AS formatted_phone
+FROM employees;
+
+Q14. First name contains the letter i
+SELECT *
+FROM employees
+WHERE first_name LIKE '%i%';
+
+Q15. Sort employees by length of first name
+SELECT *
+FROM employees
+ORDER BY LENGTH(first_name);
+
 
  
 
